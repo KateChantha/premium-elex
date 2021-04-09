@@ -4,6 +4,7 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomeScreen from './screens/HomeScreen';
+import ProductScreen from './screens/ProductScreen';
 
 const App = () => {
   return (
@@ -11,7 +12,8 @@ const App = () => {
       <Header />
       <main className='py-3'>
         <Container>
-          <Route excact path='/' component={HomeScreen} />
+          <Route exact path='/' component={HomeScreen} />
+          <Route path='/product/:id' component={ProductScreen} />
         </Container>
       </main>
       <Footer />
