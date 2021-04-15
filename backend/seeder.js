@@ -56,7 +56,7 @@ const destroyData = async () => {
 
 // in the command line 
 // if we want to destroy data, 
-// then run scripts: node backend/seeder -d 
+// then run scripts: npm run data:destroy
 if (process.argv[2] === '-d') {
   destroyData()
 } else {
