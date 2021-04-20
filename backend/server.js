@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 
 const connectDB = require('./config/db');
 const productRoutes = require('./routes/productRoutes');
+const { notFound, errorhandler } = require('./middleware/errorMiddleware');
 
 dotenv.config()
 
@@ -19,24 +20,12 @@ app.use('/api/products', productRoutes);
 /**
  * @desc 404 Error Handler
  */
-app.use((req, res, next) => {
-  const error = new Error(`Not Found - ${req.originalUrl}`);
-  res.status(404);
-  next(error);
-})
+app.use(notFound);
 
 /**
  * @desc Global Error Handler
- * @response json object with stack trace when we are in 'development' mode
  */
-app.use((err, req, res, next) => {
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  res.status(statusCode);
-  res.json({
-    message: err.message,
-    stack: process.env.NODE_ENV === 'production' ? null: err.stack,
-  })
-})
+app.use(errorhandler);
 
 const PORT = process.env.PORT || 5000
 
