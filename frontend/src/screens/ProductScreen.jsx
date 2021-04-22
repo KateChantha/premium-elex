@@ -44,7 +44,7 @@ const ProductScreen = ({ match, history }) => {
             <Image fluid src={product.image} alt={product.name} />
           </Col>
 
-          <Col md={3}>
+          <Col md={6}>
             <ListGroup variant='flush'>
               <ListGroup.Item>
                 <h3>{product.name}</h3>
@@ -55,10 +55,8 @@ const ProductScreen = ({ match, history }) => {
               <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
               <ListGroup.Item>Description: {product.description}</ListGroup.Item>
             </ListGroup>
-          </Col>
-
-          <Col md={3}>
-            <Card>
+      
+            <Card >
               <ListGroup variant='flush'>
                 <ListGroup.Item>
                   <Row>
@@ -81,7 +79,6 @@ const ProductScreen = ({ match, history }) => {
                         <Col>Qty</Col>
                         <Col>
                           <Form.Control
-                            className='product-screen--qty'
                             as='select'
                             value={qty}
                             onChange={(e) => setQty(e.target.value)}
