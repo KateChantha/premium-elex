@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message'
-import { addToCart } from '../actions/cartActions'
+import { addToCart, removeFromCart } from '../actions/cartActions'
 
 /**
  * @props match - to get product id
@@ -40,7 +40,7 @@ const CartScreen = ({ match, location, history }) => {
   */
 
   const removeFromCartHandler = (id) => {
-    console.log('remove item')
+    dispatch(removeFromCart(id))
   }
   /**
    * @desc - redirect to login 

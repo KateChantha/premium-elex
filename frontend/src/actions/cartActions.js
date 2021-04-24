@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { CART_ADD_ITEM } from '../constants/cartConstant';
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstant';
 
 /**
  * @desc getState allow us to get our entire state tree
  * - 1. make a request to product data from backend 
- *      then dispatch action and payload
- * - 2. use getState to get cart.cartItems and store it in localStorage
+ * - 2. dispatch action and payload
+ * - 3. use getState to get cart.cartItems and store it in localStorage
  */
 export const addToCart = (id, qty) => async (dispatch, getState) => {
   const { data } = await axios.get(`/api/products/${id}`)
@@ -24,3 +24,18 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
 
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 } 
+
+/**
+ * @desc getState to get our entire state tree
+ * - 1. dispatch action and payload
+ * - 2. use getState to get cart.cartItems and store it in localStorage
+ */
+
+export const removeFromCart = (id) => (dispatch, getState) => {
+  dispatch({
+    type: CART_REMOVE_ITEM,
+    payload: id
+  })
+
+  localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+}
