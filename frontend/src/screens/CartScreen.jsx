@@ -33,8 +33,21 @@ const CartScreen = ({ match, location, history }) => {
     }
   }, [dispatch, productId, qty]);
 
+
+  /*=========================
+      EVENT HANDLERS
+   *=========================
+  */
+
   const removeFromCartHandler = (id) => {
     console.log('remove item')
+  }
+  /**
+   * @desc - redirect to login 
+   *  unless it had a query string of redirect set to shipping
+   */
+  const checkoutHandler = () => {
+    history.push('/login?redirect=shipping')
   }
 
   return (
@@ -90,7 +103,32 @@ const CartScreen = ({ match, location, history }) => {
               </ListGroup>
         )}
       </Col>
-      <Col md={4}></Col>
+      <Col md={4}>
+      <Card>
+          <ListGroup variant='flush'>
+            <ListGroup.Item>
+              <h2>
+                Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
+                items
+              </h2>
+              $
+              {cartItems
+                .reduce((acc, item) => acc + item.qty * item.price, 0)
+                .toFixed(2)}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Button
+                type='button'
+                className='btn-block'
+                disabled={cartItems.length === 0}
+                onClick={checkoutHandler}
+              >
+                Proceed To Checkout
+              </Button>
+            </ListGroup.Item>
+          </ListGroup>
+        </Card>
+      </Col>
     </Row>
   )
 }
