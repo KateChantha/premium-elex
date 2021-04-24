@@ -22,9 +22,5 @@ an eCommerce application built with React, Redux, Node.js, and MongoDB. Implemen
 
 #### Documentations
 
-1. [Backend](https://www.npmjs.com/package/express-async-handler)
-2. [Frontend](https://www.npmjs.com/package/express-async-handler)
-
-```
-
-```
+1. [Backend](https://github.com/KateChantha/premium-elex/blob/main/Backend-Docs.md)
+2. [Frontend](https://github.com/KateChantha/premium-elex/blob/main/Frontend-Docs.md)
