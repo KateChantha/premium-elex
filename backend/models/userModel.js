@@ -33,6 +33,12 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password)
 }
 
+/**
+ * - encypt the password before save to db
+ * - for the case when we provide user a functionality to edit their own profile 
+ *      -- then we want to check first if user has modified the password or not.
+ * @important to encypt the passord will be performed only when register a new user or when user edit their password
+ */
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next()
