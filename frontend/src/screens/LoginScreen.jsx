@@ -6,21 +6,43 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import { login } from '../actions/userActions'
+import { userLoginReducer } from '../reducers/userReducers';
 
 const LoginScreen = ({ location, history }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const dispatch = useDispatch();
+  
+  const userLogin = useSelector(state => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+  /**
+   * check if seach params in Url
+   */
   const redirect = location.search ? location.search.split('=')[1] : '/'
+
+  /**
+   * redirect user if user already login
+   * user is null if not yet login
+   */
+  useEffect(() => {
+    if (userInfo) history.push(redirect)
+  },[history, userInfo, redirect])
+
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // TODO - dispatch login
+    dispatch(login(email, password));
   }
 
   return (
     <FormContainer>
       <h1>Sign In</h1>
+
+      { loading && <Loader/>}
+      { error && <Message variant='danger'>{error}</Message>}
+
       <Form onSubmit={submitHandler}>
         <Form.Group controlId='email'>
           <Form.Label>Email Address</Form.Label>
