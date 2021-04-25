@@ -30,4 +30,27 @@ const authUser = asyncHandler(async (req, res) => {
   }
 })
 
-module.exports = { authUser } 
+/**
+ * @desc Get user profile
+ * @route GET /api/users/profile
+ * @access Private
+ * - 1. whatever token passed in, it has the user id embeded (see implementation in authUser controller)
+ * - 2. from that user id , then fetch user data in 'protect' middlware which then user data is assaigned to req.user - this way we will have an access to user data thru req.user across the 'protect' route.
+ */
+ const getUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    })
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
+})
+
+module.exports = { authUser, getUserProfile } 

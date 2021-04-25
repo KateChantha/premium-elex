@@ -1,5 +1,7 @@
 const express = require('express');
-const { authUser } = require('../controllers/userController');
+const { authUser, getUserProfile } = require('../controllers/userController');
+const { protect } = require('../middleware/authMiddleware');
+
 
 const router = express.Router();
 
@@ -10,6 +12,13 @@ const router = express.Router();
  * @access Public
  */
 router.post('/login', authUser)
+
+/**
+ * @desc Get user profile
+ * @route GET /api/users/profile
+ * @access Private
+ */
+router.route('/profile').get(protect, getUserProfile)
 
 module.exports = router;
  
