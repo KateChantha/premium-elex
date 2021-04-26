@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap'
+import { logout } from '../actions/userActions'
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -9,9 +10,12 @@ const Header = () => {
   const { userInfo } = userLogin;
 
   const logoutHandler = () => {
-    console.log('logout !!')
+    dispatch(logout());
   }
 
+  /**
+   * - conditional rendering with user name/profile if user sign in
+   */
   return (
     <header>
       <Navbar bg="dark" variant='dark' expand="lg" collapseOnSelect>
