@@ -96,7 +96,6 @@ export const register = (name, email, password) => async (dispatch) => {
     
     dispatch({
       type: USER_REGISTER_SUCCESS,
-      // --payload: data,
     })
 
     //automatically log the user in after a successful registration
