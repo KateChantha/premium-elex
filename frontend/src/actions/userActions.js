@@ -81,13 +81,13 @@ export const register = (name, email, password) => async (dispatch) => {
     dispatch({
       type: USER_REGISTER_REQUEST,
     })
-
+    // set headers to json
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     }
-
+    // attempt to register
     const { data } = await axios.post(
       '/api/users',
       { name, email, password },
@@ -96,17 +96,15 @@ export const register = (name, email, password) => async (dispatch) => {
     
     dispatch({
       type: USER_REGISTER_SUCCESS,
-      payload: data,
+      // --payload: data,
     })
 
-    /**
-     * Get user login rith the way after USER_REGISTER_SUCCESS,
-     */
+    //automatically log the user in after a successful registration
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data,
     })
-
+    // store user info in local storage
     localStorage.setItem('userInfo', JSON.stringify(data))
   } catch (error) {
     dispatch({

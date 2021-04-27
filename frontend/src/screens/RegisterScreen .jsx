@@ -16,12 +16,18 @@ const RegisterScreen = ({ location, history }) => {
 
   const dispatch = useDispatch()
 
-  const userRegister = useSelector((state) => state.userRegister)
-  const { loading, error, userInfo } = userRegister
+  // --const userRegister = useSelector((state) => state.userRegister)
+  // --const { loading, error, userInfo } = userRegister
+  const userRegister = useSelector(state => state.userRegister);
+  const { loading, error } = userRegister;
+
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
 
   const redirect = location.search ? location.search.split('=')[1] : '/'
 
   useEffect(() => {
+    // if a user is already logged in, redirect them
     if (userInfo) {
       history.push(redirect)
     }
@@ -48,6 +54,7 @@ const RegisterScreen = ({ location, history }) => {
         <Form.Group controlId='name'>
           <Form.Label>Name</Form.Label>
           <Form.Control
+            required={true}
             type='name'
             placeholder='Enter name'
             value={name}
@@ -58,6 +65,7 @@ const RegisterScreen = ({ location, history }) => {
         <Form.Group controlId='email'>
           <Form.Label>Email Address</Form.Label>
           <Form.Control
+            required={true}
             type='email'
             placeholder='Enter email'
             value={email}
@@ -68,6 +76,7 @@ const RegisterScreen = ({ location, history }) => {
         <Form.Group controlId='password'>
           <Form.Label>Password</Form.Label>
           <Form.Control
+            required={true}
             type='password'
             placeholder='Enter password'
             value={password}
@@ -78,6 +87,7 @@ const RegisterScreen = ({ location, history }) => {
         <Form.Group controlId='confirmPassword'>
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
+            required={true}
             type='password'
             placeholder='Confirm password'
             value={confirmPassword}
