@@ -5,8 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getUserDetails, updateUserProfile } from '../actions/userActions'
-// import { listMyOrders } from '../actions/orderActions'
-// import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState('')
@@ -24,12 +22,9 @@ const ProfileScreen = ({ location, history }) => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
-  // TODO:
-  // const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
-  // const { success } = userUpdateProfile
-
-  // const orderListMy = useSelector((state) => state.orderListMy)
-  // const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
+  
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
+  const { success } = userUpdateProfile
 
   useEffect(() => {
     // if not login, then redirect to login page
@@ -48,13 +43,19 @@ const ProfileScreen = ({ location, history }) => {
     }
   }, [dispatch, history, userInfo, user])
 
+  /**
+   * once user hit the submit button
+   * - dispacth updateUserProfile action creater - pass in the user object
+   */
   const submitHandler = (e) => {
     e.preventDefault()
+    // reset existing message 
+    setMessage('')
+
     if (password !== confirmPassword) {
       setMessage('Passwords do not match')
     } else {
-      // TODO: 
-      // dispatch(updateUserProfile({ id: user._id, name, email, password }))
+      dispatch(updateUserProfile({ id: user._id, name, email, password }))
     }
   }
 
@@ -67,7 +68,7 @@ const ProfileScreen = ({ location, history }) => {
 
         {message && <Message variant='danger'>{message}</Message>}
         {}
-        {/* {success && <Message variant='success'>Profile Updated</Message>} */}
+        {success && <Message variant='success'>Profile Updated</Message>}
 
         {loading ? (
           <Loader />
@@ -78,7 +79,6 @@ const ProfileScreen = ({ location, history }) => {
             <Form.Group controlId='name'>
               <Form.Label>Name</Form.Label>
               <Form.Control
-                required
                 type='name'
                 placeholder='Enter name'
                 value={name}
@@ -89,7 +89,6 @@ const ProfileScreen = ({ location, history }) => {
             <Form.Group controlId='email'>
               <Form.Label>Email Address</Form.Label>
               <Form.Control
-                required
                 type='email'
                 placeholder='Enter email'
                 value={email}
@@ -100,7 +99,6 @@ const ProfileScreen = ({ location, history }) => {
             <Form.Group controlId='password'>
               <Form.Label>Password</Form.Label>
               <Form.Control
-                required
                 type='password'
                 placeholder='Enter password'
                 value={password}
@@ -111,7 +109,6 @@ const ProfileScreen = ({ location, history }) => {
             <Form.Group controlId='confirmPassword'>
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control
-                required
                 type='password'
                 placeholder='Confirm password'
                 value={confirmPassword}
