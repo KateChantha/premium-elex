@@ -1,5 +1,5 @@
 const express = require('express');
-const { authUser,registerUser, getUserProfile } = require('../controllers/userController');
+const { authUser,registerUser, getUserProfile, updateUserProfile } = require('../controllers/userController');
 const { protect } = require('../middleware/authMiddleware');
 
 
@@ -27,7 +27,10 @@ router.post('/login', authUser)
  * @middlewarecontroller protect, getUserProfile
  * @access Private
  */
-router.route('/profile').get(protect, getUserProfile)
+router
+  .route('/profile')
+  .get(protect, getUserProfile)
+  .put(protect, updateUserProfile);
 
 module.exports = router;
  

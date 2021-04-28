@@ -92,4 +92,42 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 })
 
-module.exports = { authUser, registerUser, getUserProfile } 
+/**
+ * @desc Update user profile
+ * @route PUT /api/users/profile
+ * @access Private
+ * - 1. whatever token passed in, it has the user id embeded (see implementation in authUser controller)
+ * - 2. from that user id , then fetch user data in 'protect' middlware which then user data is assaigned to req.user - this way we will have an access to user data thru req.user across the 'protect' route.
+ * - 3. find user by id
+ * - 4. if user is found
+ *        - assign with incoming req.body , or fallback value
+ *        - password will reassign only if it's in the req.boy due to preserving the existing hash value
+ */
+ const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+
+  if (user) {
+    user.name = req.body.name || user.name
+    user.email = req.body.email || user.email
+    // run this block only if there is the updated password
+    if (req.body.password) {
+      user.password = req.body.password
+    }
+
+    const updatedUser = await user.save()
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
+    })
+    
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
+})
+
+module.exports = { authUser, registerUser, getUserProfile , updateUserProfile} 
