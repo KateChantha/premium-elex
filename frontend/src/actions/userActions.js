@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from '../constants/userConstant';
+import { USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from '../constants/userConstant';
 
 /**
  * REFERENCE USER INFO
@@ -115,4 +115,56 @@ export const register = (name, email, password) => async (dispatch) => {
     })
   }
 }
+
+
+/**
+ * @desc Handle 2 endpoints
+ * @param {*} id as a parameter to dynamically represent either id or profile
+ * 1. /api/users/:id
+ * 2. /api/users/profile
+ * 
+ */
+export const getUserDetails = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_DETAILS_REQUEST,
+    })
+
+    // call get state to get userInfo which have tocken in it
+    const {
+      userLogin: { userInfo },
+    } = getState()
+    // sent token 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    /**
+     * use 'id' as a parameter to dynamically represent either endpint 
+     * 1. /api/users/:id
+     * 2. /api/users/profile
+     */
+    const { data } = await axios.get(`/api/users/${id}`, config)
+
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout())
+    }
+    dispatch({
+      type: USER_DETAILS_FAIL,
+      payload: message,
+    })
+  }
+}
+
 
