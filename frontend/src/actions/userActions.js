@@ -195,6 +195,10 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       payload: data,
     })
 
+    /**
+     *  because navbar in Header.js depends on userInfo in userLogin state. 
+     * To update the userLogin state with updated info add another dispatch in userActions.js updateUserProfile function.
+     */
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data,

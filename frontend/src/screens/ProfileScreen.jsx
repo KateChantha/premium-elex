@@ -33,7 +33,7 @@ const ProfileScreen = ({ location, history }) => {
       history.push('/login')
     } else {
       if (!user || !user.name || success ) {
-
+        
         dispatch({ type: USER_UPDATE_PROFILE_RESET })
         // call endpoint /api/users/profile
         dispatch(getUserDetails('profile'))
