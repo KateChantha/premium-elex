@@ -3,16 +3,29 @@ import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import FormContainer from '../components/FormContainer'
+import { saveShippingAddress } from '../actions/cartActions'
 
+/**
+ * @desc
+ * - when page loaded, useSelector to get cart data from store for the shipping address (store will check if shippinAdrress in localStorage )
+ * - if there is shipping address, then set as an inital state in each feild
+ */
 const ShippingScreen = ({ history }) => {
-  const [address, setAddress] = useState('')
-  const [city, setCity] = useState('')
-  const [postalCode, setPostalCode] = useState('')
-  const [country, setCountry] = useState('')
+  const cart = useSelector(state => state.cart);
+  const { shippingAddress } = cart
+
+  const [address, setAddress] = useState(shippingAddress.address)
+  const [city, setCity] = useState(shippingAddress.city)
+  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode)
+  const [country, setCountry] = useState(shippingAddress.country)
+
+  const dispatach = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault()
-    console.log('submit')
+    // dispatch with object
+    dispatach(saveShippingAddress({ address, city, postalCode, country }))
+    history.push('/payment')
   }
 
   return (
