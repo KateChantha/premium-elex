@@ -10,7 +10,8 @@ const ShippingScreen = ({ history }) => {
   const [postalCode, setPostalCode] = useState('')
   const [country, setCountry] = useState('')
 
-  const submitHandler = () => {
+  const submitHandler = (e) => {
+    e.preventDefault()
     console.log('submit')
   }
 
