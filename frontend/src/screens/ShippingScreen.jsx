@@ -28,7 +28,8 @@ const ShippingScreen = ({ history }) => {
     dispatach(saveShippingAddress({ address, city, postalCode, country }))
     history.push('/payment')
   }
-
+  
+  // show checkout step 1 and 2
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 />
